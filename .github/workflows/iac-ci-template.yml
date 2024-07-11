@@ -54,7 +54,7 @@ jobs:
           az bicep build -f main.bicep
       
       - name: Run Validate
-        uses: Azure/arm-deplooy@v1.0.9
+        uses: Azure/arm-deploy@v1.0.9
         with:
           scope: subscription
           region: ${{ inputs.location }}
