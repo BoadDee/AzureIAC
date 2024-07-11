@@ -43,12 +43,12 @@ param sqlDatabaseName string = 'sqldb-${project}-${environment}-boad'
 // param openAIName string = '${project}-${environment}-boad'
 // @description('Cognitive Service Name')
 // param cognitiveServiceName string = 'cog-${project}-${environment}-boad'
-@description('Speech Service Name')
-param speechServiceName string = 'speech-${project}-${environment}-boad'
-@description('Document Intelligence Name')
-param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
-@description('Redis Cache Name')
-param redisCacheName string = 'redis-${project}-${environment}-boad'
+// @description('Speech Service Name')
+// param speechServiceName string = 'speech-${project}-${environment}-boad'
+// @description('Document Intelligence Name')
+// param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
+// @description('Redis Cache Name')
+// param redisCacheName string = 'redis-${project}-${environment}-boad'
 @description('Required. Name of function app API.')
 param functionAppAPI string = 'func-${project}-${environment}-boad'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
@@ -61,8 +61,8 @@ param skuName string = 'P1V3'
 // param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 // @description('Required. Name of App Service Plan.')
 // param appServicePlan string = 'asp-${project}-${environment}-boad'
-@description('Required. Name of storage account.')
-param storageAccountName string = 'st${project}${environment}boad'
+// @description('Required. Name of storage account.')
+// param storageAccountName string = 'st${project}${environment}boad'
 
 
 //--------------------------------------------------------------------------
