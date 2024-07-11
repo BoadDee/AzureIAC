@@ -330,6 +330,18 @@ module functionApp '../../../modules/web/site/main.bicep' = {
       alwaysOn: true
       http20Enabled: true
     }
+    roleAssignments: [
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupContributor
+        principalType: 'Group'
+      }
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupReader
+        principalType: 'Group'
+      }
+    ]
   }
 dependsOn: [
   subnet_functionApp
