@@ -65,7 +65,7 @@ jobs:
             location: ${{ inputs.location }}
             project: ${{ inputs.project }}
           failOnStdErr: false
-          deploymentMode: validation
+          deploymentMode: validate
 
       - name: Preview of deployment
         uses: Azure/arm-deploy@v1.0.9
