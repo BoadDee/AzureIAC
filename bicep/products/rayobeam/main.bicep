@@ -53,7 +53,7 @@ param redisCacheName string = 'redis-${project}-${environment}-boad'
 @description('Required. Name of function app API.')
 param functionAppAPI string = 'func-${project}-${environment}-boad'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
-param subnetAddressPrefix string = (environment == 'de') ? '10.27.67.32/28' : (environment == 'te') ? '10.27.68.32/28': ''
+param subnetAddressPrefix string = (environment == 'de') ? '10.27.67.32/28' :''
 param aspServicePlan string = 'asp-${project}-${environment}-boad'
 param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
@@ -197,7 +197,7 @@ var teRgRolesAssignments = [
 //   }
 // ]
 
-var rolesAssignments = (environment == 'de') ? deRgRolesAssignments : (environment == 'te') ? teRgRolesAssignments : '' //: pdRgRolesAssignments
+var rolesAssignments = (environment == 'de') ? deRgRolesAssignments : '' //: pdRgRolesAssignments
 
 var deRoleAssignmentsKv = [
   {
