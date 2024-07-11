@@ -68,9 +68,9 @@ jobs:
           region: ${{ inputs.location }}
           template: '${{ github.workspace }}/bicep/products/${{ inputs.projectFolder }}/main.bicep'
           parameters: >
-            environment: ${{ inputs.environment }}
-            location: ${{ inputs.location }}
-            project: ${{ inputs.project }}
+            environment=${{ inputs.environment }}
+            location=${{ inputs.location }}
+            project=${{ inputs.project }}
           
           failOnStdErr: false
 

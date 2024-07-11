@@ -10,6 +10,7 @@ on:
       - 'bicep/products/rayobeam/**'
       - '.github/workflows/iac-dre-workflow.yml'
       - '.github/workflows/iac-ci-template.yml'
+      - '.github/workflows/iac-cd-template.yml'
   
   workflow_dispatch:
     
