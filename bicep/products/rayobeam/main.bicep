@@ -52,7 +52,7 @@ param vnetName string =  (environment == 'de') ? 'vnet-dre-01' : ''
 @description('Required. Name of function app API.')
 param functionAppAPI string = 'func-${project}-${environment}-boad'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
-param subnetAddressPrefix string = (environment == 'de') ? '10.27.67.32/28' :''
+param subnetAddressPrefix string = '10.27.67.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-boad'
 // param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
@@ -85,9 +85,9 @@ param tags object = {
 // Reader Group, Contributor Group and Developer Group
 //--------------------------------------------------------------------------
 @description('Optional. AD Groupid for reader group')
-param adGroupReader string = (environment == 'de') ? '66faf7ca-1a8b-4e46-b261-3d93144741a2' : '' //should be the group ID of the resource group (found in rg IAM (reader)//: (environment == 'te') ? '' : (environment == 'pd') ? 'Reader-PD' : ''
+param adGroupReader string = '66faf7ca-1a8b-4e46-b261-3d93144741a2' //should be the group ID of the resource group (found in rg IAM (reader)//: (environment == 'te') ? '' : (environment == 'pd') ? 'Reader-PD' : ''
 @description('Optional. AD Groupid for contributor group')
-param adGroupContributor string = (environment == 'de') ? '2cf0cfb0-940e-4e40-ba08-3d64ace0b351' : '' //should be the group ID of the resource group (found in rg IAM (contributor)//: (environment == 'te') ? '' : (environment == 'pd') ? 'Contributor-PD' : ''
+param adGroupContributor string = '2cf0cfb0-940e-4e40-ba08-3d64ace0b351'//should be the group ID of the resource group (found in rg IAM (contributor)//: (environment == 'te') ? '' : (environment == 'pd') ? 'Contributor-PD' : ''
 // @description('Optional. AD Groupid for Owner group')
 // param adGroupOwner string = (environment == 'de') ? '' //should be the group ID of the resource group (found in rg IAM (owner)//: (environment == 'te') ? '' : (environment == 'pd') ? 'Owner-PD' : ''
 // @description('Optional. AD Groupid for developer group')
