@@ -25,7 +25,7 @@ param resourceGroupName string = 'rg-${project}-${environment}-boad'
 @description('Required. Namr of the network resource group.')
 param networkResourceGroupName string = 'rg-${project}-network-${environment}-boad'
 @description('Optional. vnet Resource Croup Name.')
-param vnetResourceGroupName string = (environment != 'de') ? 'rg-network-dre' : 'rg-network-live-boad'
+param vnetResourceGroupName string = (environment == 'de') ? 'rg-network-dre' : ''
 // @description('Required. Name of the monitoring resource group.')
 // param monitoringResourceGroupname string = (environment != 'pd') ? 'rg-monitoring-testing-boad' : 'rg-monitoring-live-boad'
 // @description('Required. Name of the log analytics workspace.')
