@@ -12,7 +12,6 @@
 targetScope = 'subscription' // subscription, resourceGroup, resource
 @allowed([
   'de'
-  'te'
 ])
 @description('Required. Environment')
 param environment string
@@ -31,7 +30,7 @@ param vnetResourceGroupName string = (environment == 'de') ? 'rg-network-dre' : 
 // @description('Required. Name of the log analytics workspace.')
 // param logAnalyticsWorkspaceName string = (environment != 'pd') ? 'la-monitoring-testing-boad' : 'la-monitoring-live-boad'
 // @description('Required. Name of the virtual network.')
-param vnetName string =  (environment != 'de') ? 'vnet-dre-01' : 'vnet-live-boad'
+param vnetName string =  (environment == 'de') ? 'vnet-dre-01' : ''
 // @description('Adf Name')
 // param adfName string = 'adf-${project}-${environment}-boad'
 // @description('Required. Name of key vault.')
