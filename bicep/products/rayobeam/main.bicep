@@ -115,23 +115,23 @@ param adGroupContributor string = '2cf0cfb0-940e-4e40-ba08-3d64ace0b351'//should
 // Role Assignments
 //--------------------------------------------------------------------------
 
-var deRgRolesAssignments = [
-  {
-    roleDefinitionIdorName: 'Reader'
-    description: 'Reader role for the resource group'
-    principalIds: [
-      adGroupReader
-    ]
-    principalType: 'Group'
-  }
-  {
-    roleDefinitionIdorName: 'Contributor'
-    description: 'Contributor role for the resource group'
-    principalIds: [
-      adGroupContributor
-    ]
-    principalType: 'Group'
-  }
+// var deRgRolesAssignments = [
+//   {
+//     roleDefinitionIdorName: 'Reader'
+//     description: 'Reader role for the resource group'
+//     principalIds: [
+//       adGroupReader
+//     ]
+//     principalType: 'Group'
+//   }
+//   {
+//     roleDefinitionIdorName: 'Contributor'
+//     description: 'Contributor role for the resource group'
+//     principalIds: [
+//       adGroupContributor
+//     ]
+//     principalType: 'Group'
+//   }
   // {
   //   roleDefinitionIdorName: 'Owner'
   //   description: 'Owner role for the resource group'
@@ -140,7 +140,7 @@ var deRgRolesAssignments = [
   //   ]
   //   principalType: 'Group'
   // }
-]
+// ]
 
 // var teRgRolesAssignments = [
 //   {
@@ -198,34 +198,34 @@ var deRgRolesAssignments = [
 
 // var rolesAssignments = (environment == 'de') ? deRgRolesAssignments : '' //: pdRgRolesAssignments
 
-var deRoleAssignmentsKv = [
-  {
-    roleDefinitionIdorName: 'Key Vault Administrator'
-    description: 'Key Vault Administrator role for the key vault'
-    principalIds: [
-      adGroupContributor
-    ]
-    principalType: 'ServicePrincipal'
-  }
-  {
-    roleDefinitionIdorName: 'Key Vault Secrets Officer'
-    description: 'Key Vault Secrets Officer role for the key vault'
-    principalIds: [
-      adGroupContributor
-    ]
-    principalType: 'ServicePrincipal'
-  }
-  // {
-  //   roledefinitionIdornName: 'Key Vaults Secrets User'
-  //   description: 'Key Vaults Secrets User role for the key vault'
-  //   principalIds: [
-  //     functionApp.outputs.sysAssignedPrincipalId // check later
-  //   ]
-  //   principalType: 'ServicePrincipal'
-  // }
+// var deRoleAssignmentsKv = [
+//   {
+//     roleDefinitionIdorName: 'Key Vault Administrator'
+//     description: 'Key Vault Administrator role for the key vault'
+//     principalIds: [
+//       adGroupContributor
+//     ]
+//     principalType: 'ServicePrincipal'
+//   }
+//   {
+//     roleDefinitionIdorName: 'Key Vault Secrets Officer'
+//     description: 'Key Vault Secrets Officer role for the key vault'
+//     principalIds: [
+//       adGroupContributor
+//     ]
+//     principalType: 'ServicePrincipal'
+//   }
+//   // {
+//   //   roledefinitionIdornName: 'Key Vaults Secrets User'
+//   //   description: 'Key Vaults Secrets User role for the key vault'
+//   //   principalIds: [
+//   //     functionApp.outputs.sysAssignedPrincipalId // check later
+//   //   ]
+//   //   principalType: 'ServicePrincipal'
+//   // }
 
-  // check other roles later
-]
+//   // check other roles later
+// ]
 
 // var kvRolesAssignments = (environment == 'de') ? deRoleAssignmentsKv : ''
 // // var apimURL = (environment != 'pd') ? 'https://apim-testing-boad.azure-api.net' : 'https://apim-live-boad.azure-api.net'
