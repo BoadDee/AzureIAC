@@ -24,13 +24,13 @@ param resourceGroupName string = 'rg-${project}-${environment}-boad'
 @description('Required. Namr of the network resource group.')
 param networkResourceGroupName string = 'rg-${project}-network-${environment}-boad'
 @description('Optional. vnet Resource Croup Name.')
-param vnetResourceGroupName string = (environment == 'de') ? 'rg-network-dre' : ''
+param vnetResourceGroupName string = 'rg-network-dre'
 // @description('Required. Name of the monitoring resource group.')
 // param monitoringResourceGroupname string = (environment != 'pd') ? 'rg-monitoring-testing-boad' : 'rg-monitoring-live-boad'
 // @description('Required. Name of the log analytics workspace.')
 // param logAnalyticsWorkspaceName string = (environment != 'pd') ? 'la-monitoring-testing-boad' : 'la-monitoring-live-boad'
 // @description('Required. Name of the virtual network.')
-param vnetName string =  (environment == 'de') ? 'vnet-dre-01' : ''
+param vnetName string =  'vnet-dre-01'
 // @description('Adf Name')
 // param adfName string = 'adf-${project}-${environment}-boad'
 // @description('Required. Name of key vault.')
