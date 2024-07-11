@@ -35,10 +35,10 @@ param vnetName string =  (environment == 'de') ? 'vnet-dre-01' : ''
 // param adfName string = 'adf-${project}-${environment}-boad'
 // @description('Required. Name of key vault.')
 // param keyVaultName string = 'kv-${project}-${environment}-boad'
-@description('Azure Sql Server Name')
-param sqlServerName string = 'sql-${project}-${environment}-boad'
-@description('Azure Sql Database Name')
-param sqlDatabaseName string = 'sqldb-${project}-${environment}-boad'
+// @description('Azure Sql Server Name')
+// param sqlServerName string = 'sql-${project}-${environment}-boad'
+// @description('Azure Sql Database Name')
+// param sqlDatabaseName string = 'sqldb-${project}-${environment}-boad'
 // @description('OpenAI Name')
 // param openAIName string = '${project}-${environment}-boad'
 // @description('Cognitive Service Name')
@@ -54,7 +54,7 @@ param functionAppAPI string = 'func-${project}-${environment}-boad'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = (environment == 'de') ? '10.27.67.32/28' :''
 param aspServicePlan string = 'asp-${project}-${environment}-boad'
-param skuName string = 'P1V3'
+// param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
 // param subnetAddressPrefix string = (environment == 'de') ? '' : (environment == 'te') ? '' : (environment == 'pd') ? '' : ''
 // @description('Optional. Subnet name requiredfor function App.')
@@ -142,32 +142,32 @@ var deRgRolesAssignments = [
   // }
 ]
 
-var teRgRolesAssignments = [
-  {
-    roleDefinitionIdorName: 'Reader'
-    description: 'Reader role for the resource group'
-    principalIds: [
-      adGroupReader
-    ]
-    principalType: 'Group'
-  }
-  {
-    roleDefinitionIdorName: 'Contributor'
-    description: 'Contributor role for the resource group'
-    principalIds: [
-      adGroupContributor
-    ]
-    principalType: 'Group'
-  }
-  // {
-  //   roleDefinitionIdorName: 'Owner'
-  //   description: 'Owner role for the resource group'
-  //   principalIds: [
-  //     adGroupOwner
-  //   ]
-  //   principalType: 'Group'
-  // }
-]
+// var teRgRolesAssignments = [
+//   {
+//     roleDefinitionIdorName: 'Reader'
+//     description: 'Reader role for the resource group'
+//     principalIds: [
+//       adGroupReader
+//     ]
+//     principalType: 'Group'
+//   }
+//   {
+//     roleDefinitionIdorName: 'Contributor'
+//     description: 'Contributor role for the resource group'
+//     principalIds: [
+//       adGroupContributor
+//     ]
+//     principalType: 'Group'
+//   }
+//   // {
+//   //   roleDefinitionIdorName: 'Owner'
+//   //   description: 'Owner role for the resource group'
+//   //   principalIds: [
+//   //     adGroupOwner
+//   //   ]
+//   //   principalType: 'Group'
+//   // }
+// ]
 
 // var pdRgRolesAssignments = [
 //   {
@@ -196,7 +196,7 @@ var teRgRolesAssignments = [
 //   }
 // ]
 
-var rolesAssignments = (environment == 'de') ? deRgRolesAssignments : '' //: pdRgRolesAssignments
+// var rolesAssignments = (environment == 'de') ? deRgRolesAssignments : '' //: pdRgRolesAssignments
 
 var deRoleAssignmentsKv = [
   {
@@ -227,15 +227,15 @@ var deRoleAssignmentsKv = [
   // check other roles later
 ]
 
-var kvRolesAssignments = (environment == 'de') ? deRoleAssignmentsKv : ''
-// var apimURL = (environment != 'pd') ? 'https://apim-testing-boad.azure-api.net' : 'https://apim-live-boad.azure-api.net'
-var repoType = 'FactoryGitHubConfiguration'
-var hostName = 'https://github.com'
-var accountName = 'BoadeAkintunde' // check later
-var repositoryName = 'boad-adf'
-var collaborationBranch = 'main'
-var rootFolder = './code'
-var disablePublish = false
+// var kvRolesAssignments = (environment == 'de') ? deRoleAssignmentsKv : ''
+// // var apimURL = (environment != 'pd') ? 'https://apim-testing-boad.azure-api.net' : 'https://apim-live-boad.azure-api.net'
+// var repoType = 'FactoryGitHubConfiguration'
+// var hostName = 'https://github.com'
+// var accountName = 'BoadeAkintunde' // check later
+// var repositoryName = 'boad-adf'
+// var collaborationBranch = 'main'
+// var rootFolder = './code'
+// var disablePublish = false
 var subscriptionId = resgroup.outputs.subscriptionId
 
 
