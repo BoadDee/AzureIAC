@@ -9,6 +9,7 @@ on:
     paths:
       - 'bicep/products/rayobeam/**'
       - '.github/workflows/iac-dre-workflow.yml'
+      - '.github/workflows/iac-ci-template.yml'
   
   workflow_dispatch:
     
