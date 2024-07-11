@@ -1,0 +1,45 @@
+
+name: iac-dre-workflow
+concurrency: iac-dre-workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'bicep/products/rayobeam/**'
+      - '.github/workflows/iac-dre-workflow.yml'
+  
+  workflow_dispatch:
+    
+permissions:
+  contents: read
+  id-token: write
+
+
+jobs:
+  build:
+    uses: ./.github/workflows/iac-ci-template.yml
+    with:
+      environment: de
+      location: canadacentral
+      project: rayobeam
+      projectFolder: rayobeam
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  deploy-de:
+    uses: ./.github/workflows/iac-cd-template.yml
+    needs: build
+    with:
+      environment: de
+      location: canadacentral
+      project: rayobeam
+      projectFolder: rayobeam
+      rbac: false
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

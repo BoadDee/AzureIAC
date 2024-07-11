@@ -1,0 +1,82 @@
+
+name: deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Environment to deploy to'
+      location:
+        required: true
+        type: string
+        description: 'Location to deploy to'
+      project:
+        required: true
+        type: string
+        description: 'Project to deploy to'
+      projectFolder:
+        required: true
+        type: string
+        description: 'Folder to deploy to'
+      rbac:
+        required: true
+        type: boolean
+        default: false
+        description: 'Role Based Access Control'
+    
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    timeout-minutes: 30
+    name: '${{ inputs.environment }}-Release'
+    runs-on: windows-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: drop
+      
+      - name: test artifact
+        run: ls -R
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Deploy Azure Resource Manager (ARM) Template
+        uses: Azure/arm-deploy@v1.0.9
+        with:
+          scope: subscription
+          region: ${{ inputs.location }}
+          template: '${{ github.workspace }}/bicep/products/${{ inputs.projectFolder }}/main.bicep'
+          parameters: >
+            environment: ${{ inputs.environment }}
+            location: ${{ inputs.location }}
+            project: ${{ inputs.project }}
+          
+          failOnStdErr: false
+
+      - name: Deploy rbac 
+        if: ${{ inputs.rbac }}
+        uses: Azure/powershell@v1
+        with:
+          inlinescript: |
+            $rbac = '${{ github.workspace }}/bicep/products/${{ inputs.projectFolder }}-rbac.ps1 -env ${{ inputs.environment }} -project ${{ inputs.project }}'

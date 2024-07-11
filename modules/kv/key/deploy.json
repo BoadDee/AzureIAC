@@ -1,0 +1,196 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.25.3.34343",
+      "templateHash": "2723805544453395597"
+    },
+    "name": "Key Vault Keys",
+    "description": "This module deploys a Key Vault Key.",
+    "owner": "Azure/module-maintainers"
+  },
+  "parameters": {
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Conditional. The name of the parent key vault. Required if the template is used in a standalone deployment."
+      }
+    },
+    "name": {
+      "type": "string",
+      "metadata": {
+        "description": "Required. The name of the key."
+      }
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {},
+      "metadata": {
+        "description": "Optional. Resource tags."
+      }
+    },
+    "attributesEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Optional. Determines whether the object is enabled."
+      }
+    },
+    "attributesExp": {
+      "type": "int",
+      "defaultValue": -1,
+      "metadata": {
+        "description": "Optional. Expiry date in seconds since 1970-01-01T00:00:00Z. For security reasons, it is recommended to set an expiration date whenever possible."
+      }
+    },
+    "attributesNbf": {
+      "type": "int",
+      "defaultValue": -1,
+      "metadata": {
+        "description": "Optional. Not before date in seconds since 1970-01-01T00:00:00Z."
+      }
+    },
+    "curveName": {
+      "type": "string",
+      "defaultValue": "P-256",
+      "allowedValues": [
+        "P-256",
+        "P-256K",
+        "P-384",
+        "P-521"
+      ],
+      "metadata": {
+        "description": "Optional. The elliptic curve name."
+      }
+    },
+    "keyOps": {
+      "type": "array",
+      "defaultValue": [],
+      "allowedValues": [
+        "decrypt",
+        "encrypt",
+        "import",
+        "sign",
+        "unwrapKey",
+        "verify",
+        "wrapKey"
+      ],
+      "metadata": {
+        "description": "Optional. Array of JsonWebKeyOperation."
+      }
+    },
+    "keySize": {
+      "type": "int",
+      "defaultValue": -1,
+      "metadata": {
+        "description": "Optional. The key size in bits. For example: 2048, 3072, or 4096 for RSA."
+      }
+    },
+    "kty": {
+      "type": "string",
+      "defaultValue": "EC",
+      "allowedValues": [
+        "EC",
+        "EC-HSM",
+        "RSA",
+        "RSA-HSM"
+      ],
+      "metadata": {
+        "description": "Optional. The type of the key."
+      }
+    },
+    "roleAssignments": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Optional. Array of role assignments to create."
+      }
+    },
+    "enableDefaultTelemetry": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Optional. Enable telemetry via a GUID."
+      }
+    }
+  },
+  "resources": [
+    {
+      "condition": "[parameters('enableDefaultTelemetry')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[format('pid-1d4c7d9d-3fcb-4a6f-9b3b-3e6d9e5d8b0d-{0}', uniqueString(deployment().name))]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "ressources": []
+        }
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/keys",
+      "apiVersion": "2022-07-01",
+      "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('name'))]",
+      "tags": "[parameters('tags')]",
+      "properties": {
+        "attributes": {
+          "enabled": "[parameters('attributesEnabled')]",
+          "exp": "[if(not(equals(parameters('attributesExp'), -1)), parameters('attributesExp'), null())]",
+          "nbf": "[if(not(equals(parameters('attributesNbf'), -1)), parameters('attributesNbf'), null())]"
+        },
+        "curveName": "[parameters('curveName')]",
+        "keyOps": "[parameters('keyOps')]",
+        "keySize": "[if(not(equals(parameters('keySize'), -1)), parameters('keySize'), null())]",
+        "kty": "[parameters('kty')]"
+      }
+    },
+    {
+      "copy": {
+        "name": "key_roleAssignments",
+        "count": "[length(parameters('roleAssignments'))]"
+      },
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[format('Microsoft.KeyVault/vaults/{0}/keys/{1}', parameters('keyVaultName'), parameters('name'))]",
+      "name": "[format('{0}-Rbac-{1}', deployment().name, copyIndex())]",
+      "properties": {
+        "description": "[if(contains(parameters('roleAssignments')[copyIndex()], 'description'), parameters('roleAssignments')[copyIndex()].description, '')]",
+        "principalId": "[parameters('roleAssignments')[copyIndex()].principalIds]",
+        "principalType": "[if(contains(parameters('roleAssignments')[copyIndex()], 'PrincipalType'), parameters('roleAssignments')[copyIndex()].principalType, '')]",
+        "roleDefinitionIdOrName": "[parameters('roleAssignments')[copyIndex()].roleDefinitionIdOrName]",
+        "condition": "[if(contains(parameters('roleAssignments')[copyIndex()], 'condition'), parameters('roleAssignments')[copyIndex()].condition, '')]",
+        "delegatedManagedIdentityResourceId": "[if(contains(parameters('roleAssignments')[copyIndex()], 'delegatedManagedIdentityResourceId'), parameters('roleAssignments')[copyIndex()].delegatedManagedIdentityResourceId, '')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults/keys', parameters('keyVaultName'), parameters('name'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "name": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the key."
+      },
+      "value": "[parameters('name')]"
+    },
+    "resourceId": {
+      "type": "string",
+      "metadata": {
+        "description": "The resource ID of the key."
+      },
+      "value": "[resourceId('Microsoft.KeyVault/vaults/keys', parameters('keyVaultName'), parameters('name'))]"
+    },
+    "resourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the resource group the key was created in."
+      },
+      "value": "[resourceGroup().name]"
+    }
+  }
+}

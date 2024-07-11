@@ -1,0 +1,89 @@
+
+name: build
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Environment to deploy to'
+      location:
+        required: true
+        type: string
+        description: 'Location to deploy to'
+      project:
+        required: true
+        type: string
+        description: 'Project to deploy to'
+      projectFolder:
+        required: true
+        type: string
+        description: 'Folder to deploy to'
+    
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  ci:
+    environment: ${{ inputs.environment }}
+    name: 'Lint-Validate-Preview'
+    runs-on: windows-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - uses: actions/checkout@v3
+      - name: Lint
+        working-directory: '${{ github.workspace }}/bicep/products/${{ inputs.projectFolder }}'
+        run: |
+          az bicep build -f main.bicep
+      
+      - name: Run Validate
+        uses: Azure/arm-deplooy@v1.0.9
+        with:
+          scope: subscription
+          region: ${{ inputs.location }}
+          template: '${{ github.workspace }}/bicep/products/${{ inputs.projectFolder }}/main.bicep'
+          parameters: >
+
+            environment: ${{ inputs.environment }}
+            location: ${{ inputs.location }}
+            project: ${{ inputs.project }}
+          failOnStdErr: false
+          deploymentMode: validation
+
+      - name: Preview of deployment
+        uses: Azure/arm-deploy@v1.0.9
+        with:
+          scope: subscription
+          region: ${{ inputs.location }}
+          template: '${{ github.workspace }}/bicep/products/${{ inputs.projectFolder }}/main.bicep'
+          parameters: >
+
+            environment: ${{ inputs.environment }}
+            location: ${{ inputs.location }}
+            project: ${{ inputs.project }}
+          additionalArguments: "--what-if"
+          failOnStdErr: false
+        
+      - name: upload a build artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: drop
+          path: '${{ github.workspace }}/*'
+          
