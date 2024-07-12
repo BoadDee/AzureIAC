@@ -299,8 +299,8 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
   params: {
     name: aspServicePlan
     skuName: 'P2V3'
-    skuCapacity: 1
     kind: 'Linux'
+    skuCapacity: 0
     tags: tags
   }
 }
