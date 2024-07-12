@@ -393,7 +393,7 @@ module speechservice '../../../modules/cog/account/main.bicep' = {
 
     params: {
       name: documentIntelligenceName
-      kind: 'TextAnalytics'
+      kind: 'FormRecognizer'
       location: 'westus'
       tags: tags
       sku: 'S0'
