@@ -292,7 +292,7 @@ module network '../../../modules/resgroup/main.bicep' = {
 
 module asp '../../../modules/web/serverfarm/main.bicep' = {
   scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-asp-fa'
+  name: '${uniqueString(deployment().name, location)}-asp-api'
 
   params: {
     name: aspServicePlan
