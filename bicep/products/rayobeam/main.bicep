@@ -379,6 +379,7 @@ module speechservice '../../../modules/cog/account/main.bicep' = {
       }
     enableTelemetry: true
     disableLocalAuth: false 
+    restore: true
     
       }
     }
