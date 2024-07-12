@@ -301,7 +301,7 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
     sku: {
       name: 'P2V3'
     }
-    kind: 'Linux'
+    kind : 'Linux'
     tags: tags
   }
 }
