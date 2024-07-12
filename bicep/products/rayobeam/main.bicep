@@ -55,7 +55,7 @@ param functionAppAPI string = 'func-${project}-${environment}-boad'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = '10.27.64.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-boad'
-param speechServiceName string = 'speech-${project}-${environment}-boad'
+param speechServiceName string = 'speech-${project}-${environment}-wus'
 // param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
 // param subnetAddressPrefix string = (environment == 'de') ? '' : (environment == 'te') ? '' : (environment == 'pd') ? '' : ''
@@ -370,7 +370,7 @@ module speechservice '../../../modules/cog/account/main.bicep' = {
   params: {
     name: speechServiceName
     kind: 'SpeechServices'
-    location: 'candadaeast'
+    location: 'westus'
     tags: tags
     sku: 'S0'
     apiProperties: {
