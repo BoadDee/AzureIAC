@@ -397,9 +397,6 @@ module speechservice '../../../modules/cog/account/main.bicep' = {
       location: 'westus'
       tags: tags
       sku: 'S0'
-      apiProperties: {
-        statisticsEnabled: false
-        }
       enableTelemetry: true
       disableLocalAuth: false 
       publicNetworkAccess: 'Disabled'
