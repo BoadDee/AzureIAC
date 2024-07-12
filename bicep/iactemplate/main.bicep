@@ -19,7 +19,6 @@ param environment string
 param project string
 @description('Required. Location')
 param location string
-
 @description('Required. Name of resource Group.')
 param resourceGroupName string = 'rg-${project}-${environment}-boad'
 @description('Required. Namr of the network resource group.')
@@ -55,7 +54,6 @@ param functionAppAPI string = 'func-${project}-${environment}-boad'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = '10.27.64.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-boad'
-param speechServiceName string = 'speech-${project}-${environment}-boad'
 // param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
 // param subnetAddressPrefix string = (environment == 'de') ? '' : (environment == 'te') ? '' : (environment == 'pd') ? '' : ''
@@ -362,25 +360,5 @@ dependsOn: [
   subnet_functionApp
 ]
 }
-
-module speechservice '../../../modules/cog/account/main.bicep' = {
-  scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-cog-speech'
-
-  params: {
-    name: speechServiceName
-    kind: 'SpeechServices'
-    location: 'candadaeast'
-    tags: tags
-    sku: 'S0'
-    apiProperties: {
-      statisticsEnabled: false
-      }
-    enableTelemetry: true
-    disableLocalAuth: false 
-    
-      }
-    }
- 
 
 
