@@ -290,6 +290,19 @@ module network '../../../modules/resgroup/main.bicep' = {
   }
 }
 
+module asp '../../../modules/web/serverfarm/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-fa'
+
+  params: {
+    name: aspServicePlan
+    skuName: 'P2V3'
+    skuCapacity: 1
+    kind: 'Linux'
+    tags: tags
+  }
+}
+
 module subnet_functionApp '../../../modules/network/subnet/main.bicep' = {
   scope: vnetResourceGroup
   name: '${uniqueString(deployment().name, location)}-subnet-fa'
