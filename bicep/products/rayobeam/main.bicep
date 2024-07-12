@@ -56,6 +56,7 @@ param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = '10.27.64.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-boad'
 param speechServiceName string = 'speech-${project}-${environment}-wus'
+param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
 // param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
 // param subnetAddressPrefix string = (environment == 'de') ? '' : (environment == 'te') ? '' : (environment == 'pd') ? '' : ''
@@ -342,6 +343,9 @@ module functionApp '../../../modules/web/site/main.bicep' = {
       minTlsVersion: '1.2'
       alwaysOn: true
       http20Enabled: true
+      disableLocalAuth: false
+      publicNetworkAccess: 'Disabled'
+      linuxFxVersion: 'Python|3.10'
     }
     roleAssignments: [
       {
@@ -380,7 +384,32 @@ module speechservice '../../../modules/cog/account/main.bicep' = {
     restore: false
     
       }
+    
     }
+
+  module docintelligenceservice '../../../modules/cog/account/main.bicep' = {
+    scope: resourceGroup
+    name: '${uniqueString(deployment().name, location)}-cog-doc'
+
+    params: {
+      name: documentIntelligenceName
+      kind: 'TextAnalytics'
+      location: 'westus'
+      tags: tags
+      sku: 'S0'
+      apiProperties: {
+        statisticsEnabled: false
+        }
+      enableTelemetry: true
+      disableLocalAuth: false 
+      publicNetworkAccess: 'Disabled'
+      restore: false
+      
+        }
+      
+      }
+
+  
  
 
 
