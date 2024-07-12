@@ -16,10 +16,10 @@ param name string
   'I1v2'
   '''
 })
-param skuName string
+param sku object
 
-@description('Optional. Number of workers associated with the App Service Plan.')
-param skuCapacity int
+// @description('Optional. Number of workers associated with the App Service Plan.')
+// param skuCapacity int
 
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
@@ -35,7 +35,7 @@ param location string = resourceGroup().location
 param kind string = 'App'
 
 @description('Conditional. Defaults to false when creating Windows/app App Service Plan. Required if creating a Linux App Service Plan and must be set to true.')
-param reserved bool = (kind == 'Linux')
+param reserved bool = false
 
 @description('Optional. The Resource ID of the App Service Environment to use for the App Service Plan.')
 param appServiceEnvironmentId string = ''
@@ -46,8 +46,8 @@ param workerTierName string = ''
 @description('Optional. If true, apps assigned to this App Service plan can be scaled independently. If false, apps assigned to this App Service plan will scale to all instances of the plan.')
 param perSiteScaling bool = false
 
-@description('Optional. Enable/Disable ElasticScaleEnabled App Service Plan.')
-param elasticScaleEnabled bool = maximumElasticWorkerCount > 1
+// @description('Optional. Enable/Disable ElasticScaleEnabled App Service Plan.')
+// param elasticScaleEnabled bool = maximumElasticWorkerCount > 1
 
 @description('Optional. Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan.')
 param maximumElasticWorkerCount int = 1
@@ -64,7 +64,7 @@ param targetWorkerCount int = 0
 param targetWorkerSize int = 0
 
 @description('Optional. Zone Redundant server farms can only be used on Premium or ElasticPremium SKU tiers within ZRS Supported regions (https://learn.microsoft.com/en-us/azure/storage/common/redundancy-regions-zrs).')
-param zoneRedundant bool = startsWith(skuName, 'P') || startsWith(skuName, 'EP') ? true : false
+param zoneRedundant bool = false
 
 @description('Optional. The lock settings of the service.')
 param lock lockType
@@ -127,10 +127,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   kind: kind
   location: location
   tags: tags
-  sku: {
-    name: skuName
-    capacity: skuCapacity
-  }
+  sku: sku
   properties: {
     workerTierName: workerTierName
     hostingEnvironmentProfile: !empty(appServiceEnvironmentId)
@@ -140,7 +137,6 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
       : null
     perSiteScaling: perSiteScaling
     maximumElasticWorkerCount: maximumElasticWorkerCount
-    elasticScaleEnabled: elasticScaleEnabled
     reserved: reserved
     targetWorkerCount: targetWorkerCount
     targetWorkerSizeId: targetWorkerSize

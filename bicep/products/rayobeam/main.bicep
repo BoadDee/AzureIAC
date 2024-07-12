@@ -298,9 +298,10 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
 
   params: {
     name: aspServicePlan
-    skuName: 'P2V3'
+    sku: {
+      name: 'P2V3'
+    }
     kind: 'Linux'
-    skuCapacity: 0
     tags: tags
   }
 }
