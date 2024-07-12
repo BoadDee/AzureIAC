@@ -329,7 +329,6 @@ module subnet_functionApp '../../../modules/network/subnet/main.bicep' = {
 module functionApp '../../../modules/web/site/main.bicep' = {
   scope: resourceGroup
   name: '${uniqueString(deployment().name, location)}-asp-fa'
-
   params: {
     name: functionAppAPI
     kind: 'functionapp,linux'
@@ -339,7 +338,7 @@ module functionApp '../../../modules/web/site/main.bicep' = {
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
       pythonVersion: '3.10'
-      linuxFxVersion: 'Python|3.10'
+      linuxFxVersion: 'python|3.10'
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
