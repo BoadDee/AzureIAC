@@ -18,6 +18,7 @@ permissions:
   contents: read
   id-token: write
 
+
 jobs:
   build:
     uses: ./.github/workflows/iac-ci-template.yml
