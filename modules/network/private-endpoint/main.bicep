@@ -5,9 +5,14 @@ metadata owner = 'Azure/module-maintainers'
 @description('Required. Name of the private endpoint resource to create.')
 param name string
 
+@description('Required. Resource ID of the resource that needs to be connected to the network.')
+param serviceResourceId string
+
 @description('Required. Resource ID of the subnet where the endpoint needs to be created.')
 param subnetResourceId string
 
+@description('Required. Subtype(s) of the connection to be created. The allowed values depend on the type serviceResourceId refers to.')
+param groupIds array
 @description('Optional. Application security groups in which the private endpoint IP configuration is included.')
 param applicationSecurityGroupResourceIds array?
 
@@ -41,8 +46,8 @@ param customDnsConfigs customDnsConfigType
 @description('Optional. A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource.')
 param manualPrivateLinkServiceConnections manualPrivateLinkServiceConnectionsType
 
-@description('Optional. A grouping of information about the connection to the remote resource.')
-param privateLinkServiceConnections privateLinkServiceConnectionsType
+// @description('Optional. A grouping of information about the connection to the remote resource.')
+// param privateLinkServiceConnections privateLinkServiceConnectionsType
 
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
@@ -114,7 +119,14 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2023-11-01' = {
     customNetworkInterfaceName: customNetworkInterfaceName ?? ''
     ipConfigurations: ipConfigurations ?? []
     manualPrivateLinkServiceConnections: manualPrivateLinkServiceConnections ?? []
-    privateLinkServiceConnections: privateLinkServiceConnections ?? []
+    privateLinkServiceConnections: [
+      {name: name
+      properties: {
+        groupIds: groupIds
+        privateLinkServiceId: serviceResourceId
+      }
+      }
+    ]
     subnet: {
       id: subnetResourceId
     }

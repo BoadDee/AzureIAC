@@ -21,9 +21,9 @@ param project string
 param location string
 
 @description('Required. Name of resource Group.')
-param resourceGroupName string = 'rg-${project}-${environment}-boad'
+param resourceGroupName string = 'rg-${project}-${environment}-cac'
 @description('Required. Namr of the network resource group.')
-param networkResourceGroupName string = 'rg-${project}-network-${environment}-boad'
+param networkResourceGroupName string = 'rg-${project}-network-${environment}-cac'
 @description('Optional. vnet Resource Croup Name.')
 param vnetResourceGroupName string = 'rg-network-dre'
 // @description('Required. Name of the monitoring resource group.')
@@ -51,12 +51,14 @@ param vnetName string =  'vnet-dre-01'
 // @description('Redis Cache Name')
 // param redisCacheName string = 'redis-${project}-${environment}-boad'
 @description('Required. Name of function app API.')
-param functionAppAPI string = 'func-${project}-${environment}-boad'
-param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
+param functionAppAPI string = 'func-${project}-${environment}-cac'
+param functionAppAPI2 string = 'func01-${project}-${environment}-cac'
+param functionAppSubnetName string = 'snet-${project}-${environment}-cac'
 param subnetAddressPrefix string = '10.27.64.32/28' 
-param aspServicePlan string = 'asp-${project}-${environment}-boad'
-param speechServiceName string = 'speech-${project}-${environment}-wus'
-param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
+param aspServicePlan string = 'asp-${project}-${environment}-cac'
+
+// param speechServiceName string = 'speech-${project}-${environment}-wus'
+// param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
 // param skuName string = 'P1V3'
 // @description('Optional. Subnet address prefix Name.')
 // param subnetAddressPrefix string = (environment == 'de') ? '' : (environment == 'te') ? '' : (environment == 'pd') ? '' : ''
@@ -240,6 +242,7 @@ param adGroupContributor string = '2cf0cfb0-940e-4e40-ba08-3d64ace0b351'//should
 // var rootFolder = './code'
 // var disablePublish = false
 var subscriptionId = resgroup.outputs.subscriptionId
+var linuxFxVersion = 'Python|3.10'
 
 
 var vnetResourceId = virtualNetwork.id
@@ -339,13 +342,13 @@ module functionApp '../../../modules/web/site/main.bicep' = {
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
       pythonVersion: '3.10'
+      linuxFxVersion: linuxFxVersion
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
       http20Enabled: true
       disableLocalAuth: false
       publicNetworkAccess: 'Disabled'
-      linuxFxVersion: 'Python|3.10'
     }
     roleAssignments: [
       {
@@ -365,46 +368,102 @@ dependsOn: [
 ]
 }
 
-module speechservice '../../../modules/cog/account/main.bicep' = {
-  scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-cog-speech'
+module FA_PE '../../../modules/network/private-endpoint/main.bicep' = {
+  scope: networkResourceGroup
+  name: '${uniqueString(deployment().name, location)}-fa-pe'
 
   params: {
-    name: speechServiceName
-    kind: 'SpeechServices'
-    location: 'westus'
+    groupIds: [
+      'sites'
+    ]
+    name: 'pe-${functionAppAPI}'
+    serviceResourceId: functionApp.outputs.resourceId
+    subnetResourceId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
+    location: location
     tags: tags
-    sku: 'S0'
-    apiProperties: {
-      statisticsEnabled: false
-      }
-    enableTelemetry: true
-    disableLocalAuth: false 
-    publicNetworkAccess: 'Disabled'
-    restore: false
-    
-      }
-    
     }
+    dependsOn: [
+      functionApp
+    ]
+  }
 
-  module docintelligenceservice '../../../modules/cog/account/main.bicep' = {
-    scope: resourceGroup
-    name: '${uniqueString(deployment().name, location)}-cog-doc'
-
-    params: {
-      name: documentIntelligenceName
-      kind: 'FormRecognizer'
-      location: 'westus'
-      tags: tags
-      sku: 'S0'
-      enableTelemetry: true
-      disableLocalAuth: false 
+module functionApp2 '../../../modules/web/site/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-fa'
+  params: {
+    name: functionAppAPI2
+    kind: 'functionapp,linux'
+    httpsOnly: true
+    tags: tags
+    serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan}'
+    virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
+    siteConfig: {
+      pythonVersion: '3.10'
+      ftpsState: 'Disabled'
+      minTlsVersion: '1.2'
+      alwaysOn: true
+      http20Enabled: true
+      disableLocalAuth: false
       publicNetworkAccess: 'Disabled'
-      restore: false
-      
-        }
-      
+      linuxFxVersion: linuxFxVersion
+    }
+    roleAssignments: [
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupContributor
+        principalType: 'Group'
       }
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupReader
+        principalType: 'Group'
+      }
+    ]
+  }
+dependsOn: [
+  subnet_functionApp
+]
+}
+// module speechservice '../../../modules/cog/account/main.bicep' = {
+//   scope: resourceGroup
+//   name: '${uniqueString(deployment().name, location)}-cog-speech'
+
+//   params: {
+//     name: speechServiceName
+//     kind: 'SpeechServices'
+//     location: 'westus'
+//     tags: tags
+//     sku: 'S0'
+//     apiProperties: {
+//       statisticsEnabled: false
+//       }
+//     enableTelemetry: true
+//     disableLocalAuth: false 
+//     publicNetworkAccess: 'Disabled'
+//     restore: false
+    
+//       }
+    
+//     }
+
+//   module docintelligenceservice '../../../modules/cog/account/main.bicep' = {
+//     scope: resourceGroup
+//     name: '${uniqueString(deployment().name, location)}-cog-doc'
+
+//     params: {
+//       name: documentIntelligenceName
+//       kind: 'FormRecognizer'
+//       location: 'westus'
+//       tags: tags
+//       sku: 'S0'
+//       enableTelemetry: true
+//       disableLocalAuth: false 
+//       publicNetworkAccess: 'Disabled'
+//       restore: false
+      
+//         }
+      
+//       }
 
   
  
