@@ -53,7 +53,7 @@ param vnetName string =  'vnet-dre-01'
 @description('Required. Name of function app API.')
 param functionAppAPI string = 'func-${project}-${environment}-cac'
 param functionAppAPI2 string = 'func01-${project}-${environment}-cac'
-param functionAppSubnetName string = 'snet-${project}-${environment}-cac'
+param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = '10.27.64.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-cac'
 
