@@ -389,7 +389,7 @@ module FA_PE '../../../modules/network/private-endpoint/main.bicep' = {
 
 module functionApp2 '../../../modules/web/site/main.bicep' = {
   scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-asp-fa'
+  name: '${uniqueString(deployment().name, location)}-asp-fa2'
   params: {
     name: functionAppAPI2
     kind: 'functionapp,linux'
