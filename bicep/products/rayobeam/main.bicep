@@ -242,7 +242,7 @@ param adGroupContributor string = '2cf0cfb0-940e-4e40-ba08-3d64ace0b351'//should
 // var rootFolder = './code'
 // var disablePublish = false
 var subscriptionId = resgroup.outputs.subscriptionId
-var linuxFxVersion = 'Python|3.10'
+
 
 
 var vnetResourceId = virtualNetwork.id
@@ -342,7 +342,6 @@ module functionApp '../../../modules/web/site/main.bicep' = {
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
       pythonVersion: '3.10'
-      linuxFxVersion: linuxFxVersion
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
@@ -405,7 +404,7 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
       http20Enabled: true
       disableLocalAuth: false
       publicNetworkAccess: 'Disabled'
-      linuxFxVersion: linuxFxVersion
+      
     }
     roleAssignments: [
       {
