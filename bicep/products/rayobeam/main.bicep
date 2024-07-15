@@ -428,6 +428,39 @@ dependsOn: [
 ]
 }
 
+module webApp '../../../modules/web/site/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-web1'
+  params: {
+    name: 'web-${project}-${environment}-cac'
+    kind: 'app,linux'
+    httpsOnly: true
+    tags: tags
+    serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan}'
+    virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
+    siteConfig: {
+      pythonVersion: '3.10'
+      ftpsState: 'Disabled'
+      minTlsVersion: '1.2'
+      alwaysOn: true
+      http20Enabled: true
+      disableLocalAuth: false
+      publicNetworkAccess: 'Disabled'
+    }
+    roleAssignments: [
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupContributor
+        principalType: 'Group'
+      }
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupReader
+        principalType: 'Group'
+      }
+    ]
+  }
+}
 
 module sqlServer '../../../modules/sql/server/main.bicep' = {
   scope: resourceGroup
