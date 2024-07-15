@@ -58,6 +58,7 @@ param subnetAddressPrefix string = '10.27.64.32/28'
 param aspServicePlan string = 'asp-${project}-${environment}-cac'
 param sqlServerName string = 'sql-${project}-${environment}-cac'
 param sqlDatabaseName string = 'sqldb-${project}-${environment}-cac'
+param storageAccountName string = 'st${project}${environment}cac'
 
 // param speechServiceName string = 'speech-${project}-${environment}-wus'
 // param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
@@ -454,6 +455,20 @@ module sqlDatabase '../../../modules/sql/server/database/main.bicep' = {
     skuFamily: 'Gen5'
     skuName: 'GP_Gen5_2'
     serverName: sqlServer.outputs.name
+  }
+}
+
+module storageAccount '../../../modules/storage/storage-account/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-st'
+
+  params: {
+    name: storageAccountName
+    location: location
+    tags: tags
+    kind: 'StorageV2'
+    skuName: 'Standard_LRS'
+    
   }
 }
 // module speechservice '../../../modules/cog/account/main.bicep' = {
