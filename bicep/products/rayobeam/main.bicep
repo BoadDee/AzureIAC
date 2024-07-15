@@ -56,6 +56,8 @@ param functionAppAPI2 string = 'func01-${project}-${environment}-cac'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = '10.27.64.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-cac'
+param sqlServerName string = 'sql-${project}-${environment}-cac'
+param sqlDatabaseName string = 'sqldb-${project}-${environment}-cac'
 
 // param speechServiceName string = 'speech-${project}-${environment}-wus'
 // param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
@@ -242,7 +244,7 @@ param adGroupContributor string = '2cf0cfb0-940e-4e40-ba08-3d64ace0b351'//should
 // var rootFolder = './code'
 // var disablePublish = false
 var subscriptionId = resgroup.outputs.subscriptionId
-
+var sqladmin = 'sqladmin'
 
 
 var vnetResourceId = virtualNetwork.id
@@ -367,24 +369,24 @@ dependsOn: [
 ]
 }
 
-module FA_PE '../../../modules/network/private-endpoint/main.bicep' = {
-  scope: networkResourceGroup
-  name: '${uniqueString(deployment().name, location)}-fa-pe'
+// module FA_PE '../../../modules/network/private-endpoint/main.bicep' = {
+//   scope: networkResourceGroup
+//   name: '${uniqueString(deployment().name, location)}-fa-pe'
 
-  params: {
-    groupIds: [
-      'sites'
-    ]
-    name: 'pe-${functionAppAPI}'
-    serviceResourceId: functionApp.outputs.resourceId
-    subnetResourceId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
-    location: location
-    tags: tags
-    }
-    dependsOn: [
-      functionApp
-    ]
-  }
+//   params: {
+//     groupIds: [
+//       'sites'
+//     ]
+//     name: 'pe-${functionAppAPI}'
+//     serviceResourceId: functionApp.outputs.resourceId
+//     subnetResourceId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
+//     location: location
+//     tags: tags
+//     }
+//     dependsOn: [
+//       functionApp
+//     ]
+//   }
 
 module functionApp2 '../../../modules/web/site/main.bicep' = {
   scope: resourceGroup
@@ -422,6 +424,36 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
 dependsOn: [
   subnet_functionApp
 ]
+}
+
+
+module sqlServer '../../../modules/sql/server/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-sql-server'
+
+  params: {
+    name: sqlServerName
+    location: location
+    tags: tags
+    minimalTlsVersion: '1.2'
+    administratorLogin: sqladmin
+    administratorLoginPassword: sqladmin
+  }
+}
+
+module sqlDatabase '../../../modules/sql/server/database/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-sql-db'
+
+  params: {
+    name: sqlDatabaseName
+    location: location
+    tags: tags
+    skuTier: 'GeneralPurpose'
+    skuFamily: 'Gen5'
+    skuName: 'GP_Gen5_2'
+    serverName: sqlServer.outputs.name
+  }
 }
 // module speechservice '../../../modules/cog/account/main.bicep' = {
 //   scope: resourceGroup
