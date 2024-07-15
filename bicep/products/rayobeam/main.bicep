@@ -245,7 +245,7 @@ param adGroupContributor string = '2cf0cfb0-940e-4e40-ba08-3d64ace0b351'//should
 // var disablePublish = false
 var subscriptionId = resgroup.outputs.subscriptionId
 var sqladmin = 'sqladmin'
-var sqladminpassword = 'sqladminp#@ssw0rd'
+var sqladminpassword = 'WDete12p#@ssw0rd'
 
 
 var vnetResourceId = virtualNetwork.id
