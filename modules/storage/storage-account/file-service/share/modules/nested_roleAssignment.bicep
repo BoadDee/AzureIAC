@@ -64,14 +64,9 @@ resource fileShare_roleAssignments 'Microsoft.Resources/deployments@2021-04-01' 
           value: guid(fileShareResourceId, roleAssignment.principalId, roleAssignment.roleDefinitionIdOrName, 'tyfa')
         }
         roleDefinitionId: {
-          value: contains(builtInRoleNames, roleAssignment.roleDefinitionIdOrName)
-            ? builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
-            : contains(roleAssignment.roleDefinitionIdOrName, '/providers/Microsoft.Authorization/roleDefinitions/')
-                ? roleAssignment.roleDefinitionIdOrName
-                : subscriptionResourceId(
-                    'Microsoft.Authorization/roleDefinitions',
-                    roleAssignment.roleDefinitionIdOrName
-                  )
+          value: builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
+          ? builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
+          : roleAssignment.roleDefinitionIdOrName
         }
         principalId: {
           value: roleAssignment.principalId

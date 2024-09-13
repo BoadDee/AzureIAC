@@ -116,7 +116,7 @@ resource subnet_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-04
   for (roleAssignment, index) in (roleAssignments ?? []): {
     name: guid(subnet.id, roleAssignment.principalId, roleAssignment.roleDefinitionIdOrName)
     properties: {
-      roleDefinitionId: contains(builtInRoleNames, roleAssignment.roleDefinitionIdOrName)
+      roleDefinitionId: builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
         ? builtInRoleNames[roleAssignment.roleDefinitionIdOrName]
         : roleAssignment.roleDefinitionIdOrName
       principalId: roleAssignment.principalId
