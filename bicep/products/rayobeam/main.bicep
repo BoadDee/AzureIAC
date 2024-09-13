@@ -307,7 +307,7 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
   params: {
     name: aspServicePlan
     sku: {
-      name: 'P2V3'
+      name: 'P1V3'
     }
     kind : 'Linux'
     tags: tags
@@ -470,9 +470,39 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
     name: sqlServerName
     location: location
     tags: tags
+    administrators: {
+      administratorType: 'ActiveDirectory'
+      azureADOnlyAuthentication: true
+
+  
+    }
     minimalTlsVersion: '1.2'
     administratorLogin: sqladmin
     administratorLoginPassword: sqladminpassword
+  }
+}
+
+module sqlFirewallRule '../../../modules/sql/server/firewall-rule/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-sql-server-firewall-rule'
+
+  params: {
+    name: 'AllowAllWindowsAzureIps'
+    serverName: sqlServer.outputs.name
+    startIpAddress: '0.0.0.0'
+    endIpAddress: '0.0.0.0'
+  }
+}
+
+module serverSecurityAlertPolicy '../../../modules/sql/server/security-alert-policy/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-sql-server-security-alert-policy'
+
+  params: {
+    serverName: sqlServer.outputs.name
+    name: 'Default'
+    state: 'Enabled'
+    emailAccountAdmins: true
   }
 }
 
@@ -488,6 +518,8 @@ module sqlDatabase '../../../modules/sql/server/database/main.bicep' = {
     skuFamily: 'Gen5'
     skuName: 'GP_Gen5_2'
     serverName: sqlServer.outputs.name
+    collation: 'SQL_Latin1_General_CP1_CI_AS'
+    
   }
 }
 
