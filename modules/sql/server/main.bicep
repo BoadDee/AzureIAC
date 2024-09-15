@@ -179,9 +179,9 @@ resource server 'Microsoft.Sql/servers@2023-08-01-preview' = {
           administratorType: 'ActiveDirectory'
           azureADOnlyAuthentication: administrators.azureADOnlyAuthentication
           // login: administrators.login
-          principalType: administrators.principalType
-          sid: administrators.sid
-          tenantId: administrators.?tenantId ?? tenant().tenantId
+          // principalType: administrators.principalType
+          // sid: administrators.sid
+          // tenantId: administrators.?tenantId ?? tenant().tenantId
         }
       : null
     version: '12.0'
