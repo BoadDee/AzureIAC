@@ -477,6 +477,10 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
       azureADOnlyAuthentication: true
       administratorLogin: sqladmin
       administratorLoginPassword: sqladminpassword
+      login: sqladmin
+      principalType: 'User'
+      sid: '1be1e152-c861-4f6d-9dcc-05566402f131'
+      tenantId: subscription().tenantId
     }
     minimalTlsVersion: '1.2'
     
