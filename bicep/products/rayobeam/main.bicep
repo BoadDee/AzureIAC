@@ -475,12 +475,11 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
     administrators: {
       administratorType: 'ActiveDirectory'
       azureADOnlyAuthentication: true
-
-  
+      administratorLogin: sqladmin
+      administratorLoginPassword: sqladminpassword
     }
     minimalTlsVersion: '1.2'
-    administratorLogin: sqladmin
-    administratorLoginPassword: sqladminpassword
+    
   }
 }
 
