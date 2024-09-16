@@ -354,18 +354,18 @@ module functionApp '../../../modules/web/site/main.bicep' = {
       disableLocalAuth: false
       publicNetworkAccess: 'Disabled'
     }
-    roleAssignments: [
-      {
-        roleDefinitionIdOrName: 'Contributor'
-        principalId: adGroupContributor
-        principalType: 'Group'
-      }
-      {
-        roleDefinitionIdOrName: 'Contributor'
-        principalId: adGroupReader
-        principalType: 'Group'
-      }
-    ]
+    // roleAssignments: [
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupContributor
+    //     principalType: 'Group'
+    //   }
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupReader
+    //     principalType: 'Group'
+    //   }
+    // ]
   }
 dependsOn: [
   subnet_functionApp
@@ -412,18 +412,18 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
       publicNetworkAccess: 'Disabled'
       
     }
-    roleAssignments: [
-      {
-        roleDefinitionIdOrName: 'Contributor'
-        principalId: adGroupContributor
-        principalType: 'Group'
-      }
-      {
-        roleDefinitionIdOrName: 'Contributor'
-        principalId: adGroupReader
-        principalType: 'Group'
-      }
-    ]
+    // roleAssignments: [
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupContributor
+    //     principalType: 'Group'
+    //   }
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupReader
+    //     principalType: 'Group'
+    //   }
+    // ]
   }
 dependsOn: [
   subnet_functionApp
@@ -449,18 +449,18 @@ module webApp '../../../modules/web/site/main.bicep' = {
       disableLocalAuth: false
       publicNetworkAccess: 'Disabled'
     }
-    roleAssignments: [
-      {
-        roleDefinitionIdOrName: 'Contributor'
-        principalId: adGroupContributor
-        principalType: 'Group'
-      }
-      {
-        roleDefinitionIdOrName: 'Contributor'
-        principalId: adGroupReader
-        principalType: 'Group'
-      }
-    ]
+    // roleAssignments: [
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupContributor
+    //     principalType: 'Group'
+    //   }
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupReader
+    //     principalType: 'Group'
+    //   }
+    // ]
   }
 }
 
