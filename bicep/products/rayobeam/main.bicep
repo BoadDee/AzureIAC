@@ -345,8 +345,8 @@ module functionApp '../../../modules/web/site/main.bicep' = {
     serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan}'
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
-      pythonVersion: '3.10'
-      linuxFxVersion: 'Python|3.10'
+      // pythonVersion: '3.10'
+      linuxFxVersion: 'PYTHON|3.10'
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
@@ -402,8 +402,8 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
     serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan}'
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
-      pythonVersion: '3.10'
-      linuxFxVersion: 'Python|3.10'
+      // pythonVersion: '3.10'
+      linuxFxVersion: 'PYTHON|3.10'
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
