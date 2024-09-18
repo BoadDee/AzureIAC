@@ -40,7 +40,7 @@ param appServiceEnvironmentResourceId string = ''
 param managedIdentities managedIdentitiesType
 
 @description('Optional. The resource ID of the assigned identity to be used to access a key vault with.')
-param keyVaultAccessIdentityResourceId string = ''
+param keyVaultAccessIdentityResourceId string?
 
 @description('Optional. Checks if Customer provided storage account is required.')
 param storageAccountRequired bool = false
