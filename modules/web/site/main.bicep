@@ -34,19 +34,19 @@ param httpsOnly bool = true
 param clientAffinityEnabled bool = true
 
 @description('Optional. The resource ID of the app service environment to use for this resource.')
-param appServiceEnvironmentResourceId string?
+param appServiceEnvironmentResourceId string = ''
 
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentitiesType
 
 @description('Optional. The resource ID of the assigned identity to be used to access a key vault with.')
-param keyVaultAccessIdentityResourceId string?
+param keyVaultAccessIdentityResourceId string = ''
 
 @description('Optional. Checks if Customer provided storage account is required.')
 param storageAccountRequired bool = false
 
 @description('Optional. Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration. This must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.')
-param virtualNetworkSubnetId string?
+param virtualNetworkSubnetId string = ''
 
 @description('Optional. To enable accessing content over virtual network.')
 param vnetContentShareEnabled bool = false
@@ -61,21 +61,19 @@ param vnetRouteAllEnabled bool = false
 param scmSiteAlsoStopped bool = false
 
 @description('Optional. The site config object.')
-param siteConfig object = {
-  alwaysOn: true
-}
+param siteConfig object = {}
 
 @description('Optional. Required if app of kind functionapp. Resource ID of the storage account to manage triggers and logging function executions.')
-param storageAccountResourceId string?
+param storageAccountResourceId string = ''
 
 @description('Optional. If the provided storage account requires Identity based authentication (\'allowSharedKeyAccess\' is set to false). When set to true, the minimum role assignment required for the App Service Managed Identity to the storage account is \'Storage Blob Data Owner\'.')
 param storageAccountUseIdentityAuthentication bool = false
 
 @description('Optional. The web settings api management configuration.')
-param apiManagementConfiguration object?
+param apiManagementConfiguration object = {}
 
 @description('Optional. Resource ID of the app insight to leverage for this resource.')
-param appInsightResourceId string?
+param appInsightResourceId string = ''
 
 @description('Optional. The app settings-value pairs except for AzureWebJobsStorage, AzureWebJobsDashboard, APPINSIGHTS_INSTRUMENTATIONKEY and APPLICATIONINSIGHTS_CONNECTION_STRING.')
 param appSettingsKeyValuePairs object?
@@ -93,7 +91,7 @@ param logsConfiguration object?
 param privateEndpoints privateEndpointType
 
 @description('Optional. Configuration for deployment slots for an app.')
-param slots array?
+param slots array = []
 
 @description('Optional. Tags of the resource.')
 param tags object?
@@ -111,7 +109,7 @@ param diagnosticSettings diagnosticSettingType
 param clientCertEnabled bool = false
 
 @description('Optional. Client certificate authentication comma-separated exclusion paths.')
-param clientCertExclusionPaths string?
+param clientCertExclusionPaths string = ''
 
 @description('''
 Optional. This composes with ClientCertEnabled setting.
