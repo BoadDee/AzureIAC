@@ -354,7 +354,7 @@ module functionApp '../../../modules/web/site/main.bicep' = {
           value: 'python'
         }
         {
-          name: 'fUNCTIONS_EXTENSION_VERSION'
+          name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
       ]
@@ -422,7 +422,7 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
           value: 'python'
         }
         {
-          name: 'fUNCTIONS_EXTENSION_VERSION'
+          name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
       ]
