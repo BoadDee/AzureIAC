@@ -307,7 +307,7 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
   params: {
     name: aspServicePlan
     sku: {
-      name: 'P1V3'
+      name: 'P2V3'
     }
     kind : 'Linux'
     tags: tags
@@ -333,6 +333,7 @@ module subnet_functionApp '../../../modules/network/subnet/main.bicep' = {
     
   }
 }
+
 
 module functionApp '../../../modules/web/site/main.bicep' = {
   scope: resourceGroup
@@ -371,6 +372,7 @@ dependsOn: [
   subnet_functionApp
 ]
 }
+
 
 // module FA_PE '../../../modules/network/private-endpoint/main.bicep' = {
 //   scope: networkResourceGroup
