@@ -347,7 +347,7 @@ module functionApp '../../../modules/web/site/main.bicep' = {
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
       // pythonVersion: '3.10'
-      linuxFxVersion: 'PYTHON|3.10'
+      linuxFxVersion: 'Node|3.10'
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
