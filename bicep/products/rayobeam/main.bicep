@@ -353,6 +353,10 @@ module functionApp '../../../modules/web/site/main.bicep' = {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'python'
         }
+        {
+          name: 'fUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
       ]
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
@@ -416,6 +420,10 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'python'
+        }
+        {
+          name: 'fUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
         }
       ]
       ftpsState: 'Disabled'
