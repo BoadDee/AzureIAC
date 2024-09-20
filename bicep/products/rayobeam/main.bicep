@@ -348,6 +348,12 @@ module functionApp '../../../modules/web/site/main.bicep' = {
     siteConfig: {
       pythonVersion: '3.10'
       linuxFxVersion: 'Python|3.10'
+      appSettings: [
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'python'
+        }
+      ]
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
@@ -406,6 +412,12 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
     siteConfig: {
       pythonVersion: '3.10'
       linuxFxVersion: 'Python|3.10'
+      appSettings: [
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'python'
+        }
+      ]
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
       alwaysOn: true
