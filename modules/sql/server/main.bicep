@@ -15,8 +15,8 @@ param location string = resourceGroup().location
 @description('Required. The name of the server.')
 param name string
 
-@description('Optional. The managed identity definition for this resource.')
-param managedIdentities managedIdentitiesType
+// @description('Optional. The managed identity definition for this resource.')
+// param managedIdentities managedIdentitiesType
 
 @description('Conditional. The resource ID of a user assigned identity to be used by default. Required if "userAssignedIdentities" is not empty.')
 param primaryUserAssignedIdentityId string = ''
@@ -44,6 +44,12 @@ param firewallRules array = []
 
 @description('Optional. The virtual network rules to create in the server.')
 param virtualNetworkRules array = []
+
+@description('Optional. Enable System assigned managed identity on the resource.')
+param SystemAssignedIdentity bool = false
+
+@description('Optional. The user assigned managed identities to assign to the resource.')
+param userAssignedIdentities object = {}
 
 @description('Optional. The security alert policies to create in the server.')
 param securityAlertPolicies array = []
@@ -81,20 +87,27 @@ param publicNetworkAccess string = ''
 ])
 param restrictOutboundNetworkAccess string = ''
 
-var formattedUserAssignedIdentities = reduce(
-  map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
-  {},
-  (cur, next) => union(cur, next)
-) // Converts the flat array to an object like { '${id1}': {}, '${id2}': {} }
+var identityType = SystemAssignedIdentity ? (!empty(userAssignedIdentities) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned') : (!empty(userAssignedIdentities) ? 'UserAssigned' : 'None')
 
-var identity = !empty(managedIdentities)
-  ? {
-      type: (managedIdentities.?systemAssigned ?? false)
-        ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned')
-        : (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'UserAssigned' : null)
-      userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
-    }
-  : null
+var identity = identityType != 'None' ? {
+  type: identityType
+  userAssignedIdentities: !empty(userAssignedIdentities) ? userAssignedIdentities : null
+} : null
+
+// var formattedUserAssignedIdentities = reduce(
+//   map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
+//   {},
+//   (cur, next) => union(cur, next)
+// ) // Converts the flat array to an object like { '${id1}': {}, '${id2}': {} }
+
+// var identity = !empty(managedIdentities)
+//   ? {
+//       type: (managedIdentities.?systemAssigned ?? false)
+//         ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned')
+//         : (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'UserAssigned' : null)
+//       userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
+//     }
+//   : null
 
 @description('Optional. The encryption protection configuration.')
 param encryptionProtectorObj object = {}
@@ -454,7 +467,7 @@ output resourceId string = server.id
 output resourceGroupName string = resourceGroup().name
 
 @description('The principal ID of the system assigned identity.')
-output systemAssignedMIPrincipalId string = server.?identity.?principalId ?? ''
+output systemAssignedPrincipalId string = SystemAssignedIdentity && contains(server.identity, 'principalId') ? server.identity.principalId : ''
 
 @description('The location the resource was deployed into.')
 output location string = server.location

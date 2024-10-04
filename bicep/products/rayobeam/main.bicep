@@ -59,6 +59,7 @@ param aspServicePlan string = 'asp-${project}-${environment}-cac'
 param sqlServerName string = 'sql-${project}-${environment}-cac'
 param sqlDatabaseName string = 'sqldb-${project}-${environment}-cac'
 param storageAccountName string = 'st${project}${environment}cac'
+param sqladmin string = 'azure-${project}-${environment}-owner'
 
 // param speechServiceName string = 'speech-${project}-${environment}-wus'
 // param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
@@ -245,8 +246,8 @@ param tags object = {
 // var rootFolder = './code'
 // var disablePublish = false
 var subscriptionId = resgroup.outputs.subscriptionId
-var sqladmin = 'sqladmin'
-var sqladminpassword = 'WDete12p#@ssw0rd'
+// var sqladmin = 'sqladmin'
+// var sqladminpassword = 'WDete12p#@ssw0rd'
 
 
 var vnetResourceId = virtualNetwork.id
@@ -498,10 +499,10 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
       administratorType: 'ActiveDirectory'
       azureADOnlyAuthentication: true
       administratorLogin: sqladmin
-      administratorLoginPassword: sqladminpassword
+      // administratorLoginPassword: sqladminpassword
       login: sqladmin
-      principalType: 'User'
-      sid: '1be1e152-c861-4f6d-9dcc-05566402f131'
+      principalType: 'SystemAssigned'
+      // sid: '1be1e152-c861-4f6d-9dcc-05566402f131'
       tenantId: subscription().tenantId
     }
     minimalTlsVersion: '1.2'
