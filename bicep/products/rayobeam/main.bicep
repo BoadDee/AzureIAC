@@ -502,7 +502,7 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
       // administratorLoginPassword: sqladminpassword
       login: sqladmin
       principalType: 'SystemAssigned'
-      // sid: '1be1e152-c861-4f6d-9dcc-05566402f131'
+      sid: ''
       tenantId: subscription().tenantId
     }
     minimalTlsVersion: '1.2'
