@@ -20,6 +20,10 @@ on:
         required: true
         type: string
         description: 'Folder to deploy to'
+      # groupSid:
+      #   required: true
+      #   type: string
+      #   description: 'Group Sid'
 
       rbac:
         required: true
