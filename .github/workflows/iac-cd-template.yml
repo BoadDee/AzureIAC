@@ -20,10 +20,10 @@ on:
         required: true
         type: string
         description: 'Folder to deploy to'
-      # groupSid:
-      #   required: true
-      #   type: string
-      #   description: 'Group Sid'
+      groupSid:
+        required: true
+        type: string
+        description: 'Group Sid'
 
       rbac:
         required: true
@@ -81,6 +81,7 @@ jobs:
             environment=${{ inputs.environment }}
             location=${{ inputs.location }}
             project=${{ inputs.project }}
+            groupSid=${{ groupSid }}
           
           failOnStdErr: false
 
