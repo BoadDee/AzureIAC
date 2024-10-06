@@ -46,7 +46,7 @@ param firewallRules array = []
 param virtualNetworkRules array = []
 
 @description('Optional. Enable System assigned managed identity on the resource.')
-param SystemAssignedIdentity bool = false
+param systemAssignedIdentity bool = false
 
 @description('Optional. The user assigned managed identities to assign to the resource.')
 param userAssignedIdentities object = {}
@@ -87,7 +87,7 @@ param publicNetworkAccess string = ''
 ])
 param restrictOutboundNetworkAccess string = ''
 
-var identityType = SystemAssignedIdentity ? (!empty(userAssignedIdentities) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned') : (!empty(userAssignedIdentities) ? 'UserAssigned' : 'None')
+var identityType = systemAssignedIdentity ? (!empty(userAssignedIdentities) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned') : (!empty(userAssignedIdentities) ? 'UserAssigned' : 'None')
 
 var identity = identityType != 'None' ? {
   type: identityType
@@ -194,7 +194,7 @@ resource server 'Microsoft.Sql/servers@2023-08-01-preview' = {
           login: administrators.login
           principalType: administrators.principalType
           sid: administrators.sid
-          tenantId: administrators.?tenantId ?? tenant().tenantId
+          tenantId: administrators.tenantId
         }
       : null
     version: '12.0'
@@ -467,7 +467,7 @@ output resourceId string = server.id
 output resourceGroupName string = resourceGroup().name
 
 @description('The principal ID of the system assigned identity.')
-output systemAssignedPrincipalId string = SystemAssignedIdentity && contains(server.identity, 'principalId') ? server.identity.principalId : ''
+output systemAssignedPrincipalId string = systemAssignedIdentity && contains(server.identity, 'principalId') ? server.identity.principalId : ''
 
 @description('The location the resource was deployed into.')
 output location string = server.location

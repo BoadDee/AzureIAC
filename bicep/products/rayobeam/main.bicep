@@ -60,6 +60,7 @@ param sqlServerName string = 'sql-${project}-${environment}-cac'
 param sqlDatabaseName string = 'sqldb-${project}-${environment}-cac'
 param storageAccountName string = 'st${project}${environment}cac'
 param sqladmin string = 'azure-${project}-${environment}-owner'
+param groupid string = '${groupSid}'
 
 // param speechServiceName string = 'speech-${project}-${environment}-wus'
 // param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
@@ -501,8 +502,8 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
       administratorLogin: sqladmin
       // administratorLoginPassword: sqladminpassword
       login: sqladmin
-      principalType: 'SystemAssigned'
-      sid: ''
+      principalType: 'Group'
+      sid: groupid
       tenantId: subscription().tenantId
     }
     minimalTlsVersion: '1.2'

@@ -20,6 +20,7 @@ on:
         required: true
         type: string
         description: 'Folder to deploy to'
+
       rbac:
         required: true
         type: boolean
@@ -60,6 +61,11 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
+
+      - name: Get group ID 
+        run: |
+          $groupSid = az group show --group "azure-${inputs.project}-${inputs.environment}-owner" --query objectId -o tsv
+        
 
       - name: Deploy Azure Resource Manager (ARM) Template
         uses: Azure/arm-deploy@v1.0.9
