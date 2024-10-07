@@ -68,7 +68,7 @@ jobs:
 
       - name: Get group ID 
         run: |
-          $groupSid = az group show --group "${{input.groupSid}}" --query objectId -o tsv
+          $groupSid = az group show --group "${{inputs.groupSid}}" --query objectId -o tsv
         
 
       - name: Deploy Azure Resource Manager (ARM) Template
