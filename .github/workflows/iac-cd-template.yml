@@ -66,12 +66,6 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - name: Get group ID 
-        run: |
-          GROUP_ID = $(az group show --group "${{inputs.groupSid}}" --query objectId -o tsv)
-          echo "Group_ID: $GROUP_ID" >> $GITHUB_ENV
-        
-
       - name: Deploy Azure Resource Manager (ARM) Template
         uses: Azure/arm-deploy@v1.0.9
         with:
@@ -82,7 +76,7 @@ jobs:
             environment=${{ inputs.environment }}
             location=${{ inputs.location }}
             project=${{ inputs.project }}
-            groupSid=$GROUP_ID
+          
           
           failOnStdErr: false
 
