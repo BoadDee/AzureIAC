@@ -40,7 +40,7 @@ jobs:
       location: canadacentral
       project: rayobeam
       projectFolder: rayobeam
-      groupSid: $GROUP_ID
+      # groupSid: $GROUP_ID
       rbac: false
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}

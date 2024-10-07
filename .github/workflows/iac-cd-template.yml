@@ -21,7 +21,7 @@ on:
         type: string
         description: 'Folder to deploy to'
       groupSid:
-        required: true
+        required: false
         type: string
         description: 'Group Sid'
 
