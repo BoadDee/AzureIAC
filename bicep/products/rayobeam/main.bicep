@@ -496,6 +496,7 @@ module sqlServer '../../../modules/sql/server/main.bicep' = {
     name: sqlServerName
     location: location
     tags: tags
+    systemAssignedIdentity: true
     administrators: {
       administratorType: 'ActiveDirectory'
       azureADOnlyAuthentication: true
