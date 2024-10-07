@@ -60,7 +60,7 @@ param sqlServerName string = 'sql-${project}-${environment}-cac'
 param sqlDatabaseName string = 'sqldb-${project}-${environment}-cac'
 param storageAccountName string = 'st${project}${environment}cac'
 param sqladmin string = 'azure-${project}-${environment}-owner'
-param groupSid string
+param groupSid string = 'd1f9fade-390c-47d0-9821-f4b296f133b5'
 
 // param speechServiceName string = 'speech-${project}-${environment}-wus'
 // param documentIntelligenceName string = 'doc-${project}-${environment}-boad'
