@@ -303,6 +303,19 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
   }
 }
 
+module asp2 '../../../modules/web/serverfarm/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-api'
+
+  params: {
+    name: aspServicePlan
+    skuName: 'P2V3'
+    skuCapacity: 1
+    kind: 'Windows'
+    tags: tags
+  }
+}
+
 module subnet_functionApp '../../../modules/network/subnet/main.bicep' = {
   scope: vnetResourceGroup
   name: '${uniqueString(deployment().name, location)}-subnet-fa'
@@ -361,4 +374,42 @@ dependsOn: [
 ]
 }
 
+
+module functionApp2 '../../../modules/web/site/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-fa'
+
+  params: {
+    name: functionAppAPI2
+    kind: 'functionapp'
+    httpsOnly: true
+    tags: tags
+    serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan}'
+    virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
+    siteConfig: {
+      windowsVersion: '9.x'
+      windowsFxVersion: 'DOTNET|9.x'
+      ftpsState: 'Disabled'
+      minTlsVersion: '1.2'
+
+      alwaysOn: true
+      http20Enabled: true
+    }
+    roleAssignments: [
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupContributor
+        principalType: 'Group'
+      }
+      {
+        roleDefinitionIdOrName: 'Contributor'
+        principalId: adGroupReader
+        principalType: 'Group'
+      }
+    ]
+  }
+dependsOn: [
+  subnet_functionApp
+]
+}
 
