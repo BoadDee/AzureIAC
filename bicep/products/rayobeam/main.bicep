@@ -320,7 +320,7 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
 
 module asp2 '../../../modules/web/serverfarm/main.bicep' = {
   scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-asp2-api'
+  name: '${uniqueString(deployment().name, location)}-asp-api2'
 
   params: {
     name: aspServicePlan
@@ -472,7 +472,7 @@ dependsOn: [
 
 module functionApp3 '../../../modules/web/site/main.bicep' = {
   scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-asp-fa2'
+  name: '${uniqueString(deployment().name, location)}-asp-fa3'
   params: {
     name: functionAppAPI3
     kind: 'functionapp,linux'
