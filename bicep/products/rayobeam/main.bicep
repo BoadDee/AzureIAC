@@ -481,8 +481,8 @@ module functionApp3 '../../../modules/web/site/main.bicep' = {
     serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan2}'
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
-      windowsVersion: '9.x'
-      windowsFxVersion: '.NET 9 isolated'
+      netFrameworkVersion: 'v9.0'
+      windowsFxVersion: '9.0'
       appSettings: [
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
