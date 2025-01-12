@@ -475,7 +475,7 @@ module functionApp3 '../../../modules/web/site/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-asp-fa3'
   params: {
     name: functionAppAPI3
-    kind: 'functionapp,linux'
+    kind: 'functionapp'
     httpsOnly: true
     tags: tags
     serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan2}'
