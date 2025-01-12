@@ -320,7 +320,7 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
 
 module asp2 '../../../modules/web/serverfarm/main.bicep' = {
   scope: resourceGroup
-  name: '${uniqueString(deployment().name, location)}-asp-api'
+  name: '${uniqueString(deployment().name, location)}-asp2-api'
 
   params: {
     name: aspServicePlan
