@@ -323,7 +323,7 @@ module asp2 '../../../modules/web/serverfarm/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-asp-api2'
 
   params: {
-    name: aspServicePlan
+    name: aspServicePlan2
     sku: {
       name: 'P2V3'
     }
