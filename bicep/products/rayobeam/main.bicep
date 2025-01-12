@@ -53,9 +53,11 @@ param vnetName string =  'vnet-dre-01'
 @description('Required. Name of function app API.')
 param functionAppAPI string = 'func-${project}-${environment}-cac'
 param functionAppAPI2 string = 'func01-${project}-${environment}-cac'
+param functionAppAPI3 string = 'func02-${project}-${environment}-cac'
 param functionAppSubnetName string = 'snet-${project}-${environment}-boad'
 param subnetAddressPrefix string = '10.27.64.32/28' 
 param aspServicePlan string = 'asp-${project}-${environment}-cac'
+param aspServicePlan2 string = 'asp2-${project}-${environment}-cac'
 param sqlServerName string = 'sql-${project}-${environment}-cac'
 param sqlDatabaseName string = 'sqldb-${project}-${environment}-cac'
 param storageAccountName string = 'st${project}${environment}cac'
@@ -316,6 +318,20 @@ module asp '../../../modules/web/serverfarm/main.bicep' = {
   }
 }
 
+module asp2 '../../../modules/web/serverfarm/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-api'
+
+  params: {
+    name: aspServicePlan
+    sku: {
+      name: 'P2V3'
+    }
+    kind : 'Windows'
+    tags: tags
+  }
+}
+
 module subnet_functionApp '../../../modules/network/subnet/main.bicep' = {
   scope: vnetResourceGroup
   name: '${uniqueString(deployment().name, location)}-subnet-fa'
@@ -422,6 +438,55 @@ module functionApp2 '../../../modules/web/site/main.bicep' = {
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'python'
+        }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+      ]
+      ftpsState: 'Disabled'
+      minTlsVersion: '1.2'
+      alwaysOn: true
+      http20Enabled: true
+      disableLocalAuth: false
+      publicNetworkAccess: 'Disabled'
+      
+    }
+    // roleAssignments: [
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupContributor
+    //     principalType: 'Group'
+    //   }
+    //   {
+    //     roleDefinitionIdOrName: 'Contributor'
+    //     principalId: adGroupReader
+    //     principalType: 'Group'
+    //   }
+    // ]
+  }
+dependsOn: [
+  subnet_functionApp
+]
+}
+
+module functionApp3 '../../../modules/web/site/main.bicep' = {
+  scope: resourceGroup
+  name: '${uniqueString(deployment().name, location)}-asp-fa2'
+  params: {
+    name: functionAppAPI3
+    kind: 'functionapp,linux'
+    httpsOnly: true
+    tags: tags
+    serverFarmResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Web/serverFarms/${aspServicePlan2}'
+    virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
+    siteConfig: {
+      windowsVersion: '9.x'
+      windowsFxVersion: 'DOTNET|9.x'
+      appSettings: [
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'windows'
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
