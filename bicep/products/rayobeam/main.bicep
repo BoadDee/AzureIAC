@@ -482,11 +482,11 @@ module functionApp3 '../../../modules/web/site/main.bicep' = {
     virtualNetworkSubnetId: '${vnetResourceId}/subnets/${functionAppSubnetName}'
     siteConfig: {
       windowsVersion: '9.x'
-      windowsFxVersion: 'DOTNET|9.x'
+      windowsFxVersion: '.NET isolated 9.0'
       appSettings: [
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'windows'
+          value: 'dotnet-isolated'
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
